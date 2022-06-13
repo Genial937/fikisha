@@ -137,15 +137,24 @@ class OrdersController extends Controller
     {
         try {
             $orders = Order::latest()->with(['customers', 'details', 'vehicles'])->get();
+            $pending = Order::where('status', 'pending')->get()->count();
+            $loading = Order::where('status', 'loading')->get()->count();
+            $dispatched = Order::where('status', 'dispatched')->get()->count();
+            $delivered = Order::where('status', 'delivered')->get()->count();
             $res = [
                 'status' => 200,
                 'orders' => OrderResource::collection($orders),
+                'pending' => $pending,
+                'loading' => $loading,
+                'dispatched' => $dispatched,
+                'delivered' => $delivered
             ];
             return response()->json($res, 200);
         } catch (\Throwable $th) {
             $res = [
                 'status' => 500,
                 'orders' => $th->getMessage(),
+
             ];
             return response()->json($res, 500);
         }

@@ -29,15 +29,49 @@
 
     <div class="row">
       <div class="col-md-12">
-        <div class="card card-body">
-          <div v-if="loading" class="d-flex justify-content-center">
-            <loading-component></loading-component>
+        <div class="">
+          <div v-if="loading" class="card card-body">
+            <div class="d-flex justify-content-center">
+              <loading-component></loading-component>
+            </div>
           </div>
-          <div>
-            <data-table
-              v-bind="parametersTable"
-              @actionTriggered="handleAction"
-            />
+          <div v-else>
+            <div class="row">
+              <div class="col-md-12">
+                <div class="row text-center">
+                  <div class="col-md-4">
+                    <div class="card card-body">
+                      <h4 class="mb-1 mt-1">
+                        <span data-plugin="counterup">{{ available }}</span>
+                      </h4>
+                      <p class="text-muted mb-0">Available Vehicles</p>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="card card-body">
+                      <h4 class="mb-1 mt-1">
+                        <span data-plugin="counterup">{{ onloading }}</span>
+                      </h4>
+                      <p class="text-muted mb-0">Loading Vehicles</p>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="card card-body">
+                      <h4 class="mb-1 mt-1">
+                        <span data-plugin="counterup">{{ transit }}</span>
+                      </h4>
+                      <p class="text-muted mb-0">Vehicles On Transit</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-12 card card-body">
+                <data-table
+                  v-bind="parametersTable"
+                  @actionTriggered="handleAction"
+                />
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -216,6 +250,9 @@ export default {
       error_message: "",
       success_message: "",
       saving: false,
+      available: 0,
+      transit: 0,
+      onloading: 0,
     };
   },
   mounted() {
@@ -241,6 +278,10 @@ export default {
         .then((res) => {
           this.loading = false;
           this.vehicles = res.data.vehicles;
+          this.available = res.data.available;
+          this.onloading = res.data.loading;
+          this.transit = res.data.transit;
+          console.log(res.data);
         })
         .catch((error) => {
           this.loading = false;

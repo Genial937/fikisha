@@ -17,15 +17,67 @@
 
     <div class="row">
       <div class="col-md-12">
-        <div class="card card-body">
-          <div v-if="loading" class="d-flex justify-content-center">
-            <loading-component></loading-component>
+        <div class="">
+          <div v-if="loading" class="card card-body">
+            <div class="d-flex justify-content-center">
+              <loading-component></loading-component>
+            </div>
           </div>
           <div v-else>
-            <data-table
-              v-bind="parametersTable"
-              @actionTriggered="handleACtion"
-            />
+            <div class="row">
+              <div class="col-md-12">
+                <div class="row text-center">
+                  <div class="col-md-3">
+                    <div class="card card-body">
+                      <div>
+                        <h4 class="mb-1 mt-1">
+                          <span data-plugin="counterup">{{ pending }}</span>
+                        </h4>
+                        <p class="text-muted mb-0">Pending Orders</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="card card-body">
+                      <div>
+                        <h4 class="mb-1 mt-1">
+                          <span data-plugin="counterup">{{ onloading }}</span>
+                        </h4>
+                        <p class="text-muted mb-0">Loading Orders</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="card card-body">
+                      <div>
+                        <h4 class="mb-1 mt-1">
+                          <span data-plugin="counterup">{{ dispatched }}</span>
+                        </h4>
+                        <p class="text-muted mb-0">Dispatched Orders</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="card card-body">
+                      <div>
+                        <h4 class="mb-1 mt-1">
+                          <span data-plugin="counterup">{{ delivered }}</span>
+                        </h4>
+                        <p class="text-muted mb-0">Delivered Orders</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-12">
+                <div class="card card-body">
+                  <data-table
+                    v-bind="parametersTable"
+                    @actionTriggered="handleACtion"
+                  />
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -263,6 +315,10 @@ export default {
       order_no: "",
       total: "",
       loading_details: false,
+      pending: 0,
+      onloading: 0,
+      dispatched: 0,
+      delivered: 0,
     };
   },
   mounted() {
@@ -297,6 +353,10 @@ export default {
         .then((res) => {
           this.loading = false;
           this.orders = res.data.orders;
+          this.pending = res.data.pending;
+          this.onloading = res.data.loading;
+          this.dispatched = res.data.dispatched;
+          this.delivered = res.data.delivered;
         })
         .catch((error) => {
           this.loading = false;

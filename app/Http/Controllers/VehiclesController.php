@@ -136,15 +136,21 @@ class VehiclesController extends Controller
     {
         try {
             $vehicles = Vehicle::where('state', 'active')->latest()->get();
+            $loading = Vehicle::where('status', 'loading')->get()->count();
+            $transit = Vehicle::where('status', 'transit')->get()->count();
+            $available = Vehicle::where('status', 'available')->get()->count();
             $res = [
                 'status' => 200,
-                'vehicles' => VehiclesResource::collection($vehicles)
+                'vehicles' => VehiclesResource::collection($vehicles),
+                'loading' => $loading,
+                'transit' => $transit,
+                'available' => $available
             ];
             return response()->json($res, 200);
         } catch (\Throwable $th) {
             $res = [
                 'status' => 500,
-                'vehicles' => $th->getMessage()
+                'vehicles' => $th->getMessage(),
             ];
             return response()->json($res, 500);
         }

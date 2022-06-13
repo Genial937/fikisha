@@ -18,6 +18,7 @@ class AddStatusToOrdersTable extends Migration
         });
     }
 
+
     /**
      * Reverse the migrations.
      *
