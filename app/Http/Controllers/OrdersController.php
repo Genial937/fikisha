@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Resources\OrderResource;
 use App\Models\Order;
 use App\Models\Order_details;
+use App\Models\User;
 use App\Models\Vehicle;
 use Illuminate\Http\Request;
 
@@ -75,21 +76,32 @@ class OrdersController extends Controller
         try {
             $order = Order::findOrFail($id);
             $vehicle = Vehicle::where('id', $request->vehicle_id)->first();
+            $user = User::where('id', $order->user_id)->first();
+            $subject = 'Order Status';
+            $url = route('index');
             switch ($request->order_status) {
                 case 'loading':
                     # code...
                     $order->update(['status' => 'loading', 'vehicle_id' => $request->vehicle_id]);
                     $vehicle->update(['status' => 'loading']);
+                    #send an email
+                    $message = 'Dear ' . $user->name . ', Your order is being loaded in to the truck for delivery. Thank you for choosing us!';
+                    EmailsController::send_email($message, $url, $subject, $user->email);
                     break;
                 case 'dispatched':
                     # code...
                     $order->update(['status' => 'dispatched']);
                     $vehicle->update(['status' => 'transit']);
+                    # send an email
+                    $message = 'Dear ' . $user->name . ', Your order has been dispatched and delivery is on transit. Thank you for choosing us!';
+                    EmailsController::send_email($message, $url, $subject, $user->email);
                     break;
                 case 'delivered':
                     # code...
                     $order->update(['status' => 'delivered']);
                     $vehicle->update(['status' => 'available']);
+                    $message = 'Dear ' . $user->name . ', Your order has been delivered, Kindly avail yourself at our office with your ID Card. We also offer coffee to our clients. Thank you for choosing us!';
+                    EmailsController::send_email($message, $url, $subject, $user->email);
                     break;
                 default:
                     $order->update(['status' => 'pending']);

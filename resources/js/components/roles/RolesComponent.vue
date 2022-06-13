@@ -162,7 +162,6 @@ export default {
           this.success = true;
           this.success_message = res.data.message;
           this.fetch_roles();
-          console.log(res.data);
         })
         .catch((error) => {
           this.saving = false;

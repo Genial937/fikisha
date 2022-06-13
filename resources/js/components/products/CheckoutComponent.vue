@@ -1,6 +1,5 @@
 <template>
   <div>
-    <!-- start page title -->
     <div class="row">
       <div class="col-12">
         <div
@@ -24,7 +23,7 @@
         </div>
       </div>
     </div>
-    <!-- end page title -->
+
     <div class="row">
       <div class="col-xl-10 m-auto">
         <div v-if="saving" class="card card-body mb-2 text-center">
@@ -252,7 +251,6 @@ export default {
           this.saving = false;
           this.success = true;
           this.success_message = res.data.message;
-          console.log(res.data);
         })
         .catch((error) => {
           this.saving = false;

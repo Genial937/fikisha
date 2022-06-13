@@ -105,9 +105,7 @@
             </div>
           </div>
         </div>
-        <!-- end row -->
       </div>
-      <!-- end container -->
     </div>
   </div>
 </template>

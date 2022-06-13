@@ -1,6 +1,5 @@
 <template>
   <div>
-    <!-- start page title -->
     <div class="row">
       <div class="col-12">
         <div
@@ -24,7 +23,7 @@
         </div>
       </div>
     </div>
-    <!-- end page title -->
+
     <div class="row mb-3">
       <div class="col-xl-8">
         <div
@@ -88,9 +87,6 @@
             </div>
           </div>
         </div>
-        <!-- end card -->
-
-        <!-- end card -->
 
         <div class="row mt-4">
           <div class="col-sm-6">
@@ -98,7 +94,7 @@
               <i class="uil uil-arrow-left me-1"></i> Continue Shopping
             </a>
           </div>
-          <!-- end col -->
+
           <div class="col-sm-6">
             <div class="text-sm-end mt-2 mt-sm-0">
               <a :href="checkout" class="btn btn-success">
@@ -106,9 +102,7 @@
               </a>
             </div>
           </div>
-          <!-- end col -->
         </div>
-        <!-- end row-->
       </div>
 
       <div class="col-xl-4">
@@ -148,7 +142,6 @@
                   </tbody>
                 </table>
               </div>
-              <!-- end table-responsive -->
             </div>
           </div>
         </div>
@@ -180,7 +173,6 @@ export default {
         .then((res) => {
           this.items = res.data.items;
           this.total_cost = res.data.total;
-          console.log(res.data);
         })
         .catch((error) => {
           console.log(error);

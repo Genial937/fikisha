@@ -1,6 +1,5 @@
 <template>
   <div>
-    <!-- start page title -->
     <div class="row">
       <div class="col-12">
         <div
@@ -28,7 +27,7 @@
         </div>
       </div>
     </div>
-    <!-- end page title -->
+
     <div class="row">
       <div class="col-xl-12 col-lg-12">
         <div class="card">
@@ -112,7 +111,6 @@
                   </div>
                 </div>
               </div>
-              <!-- end row -->
 
               <div class="row mt-4">
                 <div class="col-sm-6">
@@ -255,91 +253,6 @@
         </div>
       </div>
     </div>
-    <div class="modal fade" id="edit">
-      <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-          <form @submit.prevent="save_product()" enctype="multipart/form-data">
-            <div class="modal-header">
-              <h4 class="modal-title">Add Product</h4>
-              <button
-                type="button"
-                class="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              ></button>
-            </div>
-            <div class="modal-body">
-              <div class="row">
-                <div class="col-md-6">
-                  <div class="mb-3">
-                    <label for="">Product Name</label>
-                    <input
-                      type="text"
-                      v-model="product.product_name"
-                      required
-                      class="form-control form-control-sm"
-                    />
-                  </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="mb-3">
-                    <label for="">Product Price</label>
-                    <input
-                      type="number"
-                      v-model="product.product_price"
-                      required
-                      class="form-control form-control-sm"
-                    />
-                  </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="mb-3">
-                    <label for="">Available in</label>
-                    <input
-                      type="text"
-                      v-model="product.availability"
-                      required
-                      class="form-control form-control-sm"
-                      placeholder="i.e sacks, packets"
-                    />
-                  </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="mb-3">
-                    <label for="">Product photo</label>
-                    <input
-                      type="file"
-                      class="form-control form-control-sm"
-                      required
-                    />
-                  </div>
-                </div>
-                <div class="col-md-12">
-                  <div class="mb-3">
-                    <label for="">Product Description</label>
-                    <textarea
-                      v-model="product.product_desc"
-                      id=""
-                      cols="30"
-                      rows="4"
-                      class="form-control"
-                    ></textarea>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="modal-footer">
-              <a href="#" data-bs-dismiss="modal" class="btn btn-sm btn-danger"
-                >Cancel</a
-              >
-              <button type="submit" class="btn btn-sm btn-primary">
-                Submit
-              </button>
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>
   </div>
 </template>
 
@@ -392,7 +305,6 @@ export default {
         .then((res) => {
           this.loading = false;
           this.products = res.data.products;
-          console.log(res.data);
         })
         .catch((error) => {
           this.loading = false;
@@ -422,7 +334,6 @@ export default {
           this.success = true;
           this.success_message = res.data.message;
           this.resetForm();
-          console.log(res.data);
         })
         .catch((error) => {
           this.saving = false;
@@ -440,7 +351,6 @@ export default {
         .then((res) => {
           this.$root.$emit("updateCart", "");
           this.showAlert(res.data.message);
-          console.log(res.data);
         })
         .catch((error) => {
           console.log(error);

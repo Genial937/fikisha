@@ -37,7 +37,6 @@ export default {
         .get(this.countUrl)
         .then((res) => {
           this.count = res.data.count;
-          console.log(res.data);
         })
         .catch((error) => {
           console.log(error);

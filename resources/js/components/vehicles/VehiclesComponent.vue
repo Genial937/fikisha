@@ -1,6 +1,5 @@
 <template>
   <div>
-    <!-- start page title -->
     <div class="row">
       <div class="col-12">
         <div
@@ -27,7 +26,7 @@
         </div>
       </div>
     </div>
-    <!-- end page title -->
+
     <div class="row">
       <div class="col-md-12">
         <div class="card card-body">
@@ -242,7 +241,6 @@ export default {
         .then((res) => {
           this.loading = false;
           this.vehicles = res.data.vehicles;
-          console.log(res.data);
         })
         .catch((error) => {
           this.loading = false;
@@ -280,7 +278,6 @@ export default {
           this.success_message = res.data.message;
           this.fetch_vehicles();
           this.resetForm();
-          console.log(res.data);
         })
         .catch((error) => {
           this.saving = false;
@@ -303,7 +300,6 @@ export default {
           this.success_message = res.data.message;
           this.fetch_vehicles();
           this.resetForm();
-          console.log(res.data);
         })
         .catch((error) => {
           this.saving = false;
@@ -322,7 +318,6 @@ export default {
           this.success = true;
           this.success_message = res.data.message;
           this.fetch_vehicles();
-          console.log(res.data);
         })
         .catch((error) => {
           this.saving = false;

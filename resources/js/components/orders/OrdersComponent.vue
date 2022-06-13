@@ -1,6 +1,5 @@
 <template>
   <div>
-    <!-- start page title -->
     <div class="row">
       <div class="col-12">
         <div
@@ -15,7 +14,7 @@
         </div>
       </div>
     </div>
-    <!-- end page title -->
+
     <div class="row">
       <div class="col-md-12">
         <div class="card card-body">
@@ -161,6 +160,17 @@
               ></button>
             </div>
             <div class="modal-body">
+              <div v-if="saving" class="d-flex justify-content-center">
+                <saving-component></saving-component>
+              </div>
+              <div v-if="success">
+                <success-component
+                  :message="success_message"
+                ></success-component>
+              </div>
+              <div v-if="error">
+                <fail-component :message="error_message"></fail-component>
+              </div>
               <div class="mb-3">
                 <label for="">Vehicle</label>
                 <div v-if="assigned">
@@ -183,8 +193,7 @@
                       :key="veh.id"
                       :value="veh.id"
                     >
-                      {{ veh.reg_no }} ~
-                      {{ veh.name }}
+                      {{ veh.reg_no }} ~ {{ veh.name }} ~ {{ veh.status }}
                     </option>
                   </select>
                 </div>
@@ -218,12 +227,30 @@
 import DataTable from "@andresouzaabreu/vue-data-table";
 import "@andresouzaabreu/vue-data-table/dist/DataTable.css";
 import LoadingComponent from "../states/LoaderComponent.vue";
+import SavingComponent from "../states/SavingComponent.vue";
+import SuccessComponent from "../states/SuccessComponent.vue";
+import FailComponent from "../states/FailComponent.vue";
 import axios from "axios";
+import VueSweetalert2 from "vue-sweetalert2";
+import Swal from "sweetalert2";
+
+import "sweetalert2/dist/sweetalert2.min.css";
 export default {
   props: ["fetch-url", "vehicles-url", "update-url", "details-url"],
-  components: { DataTable, LoadingComponent },
+  components: {
+    DataTable,
+    LoadingComponent,
+    SavingComponent,
+    SuccessComponent,
+    FailComponent,
+  },
   data() {
     return {
+      saving: false,
+      error: false,
+      success: false,
+      error_message: "",
+      success_message: "",
       orders: [],
       vehicles: [],
       loading: false,
@@ -270,7 +297,6 @@ export default {
         .then((res) => {
           this.loading = false;
           this.orders = res.data.orders;
-          console.log(res.data);
         })
         .catch((error) => {
           this.loading = false;
@@ -282,7 +308,6 @@ export default {
         .get(this.vehiclesUrl)
         .then((res) => {
           this.vehicles = res.data.vehicles;
-          console.log(res.data);
         })
         .catch((error) => {
           console.log(error);
@@ -290,19 +315,35 @@ export default {
     },
     update_order() {
       let url = this.updateUrl.replace("id", this.order_id);
+      let check = this.vehicles.find((item) => item.id == this.vehicle_id);
+      if (
+        (!this.assigned && check.status == "Loading") ||
+        (!this.assigned && check.status == "Transit")
+      ) {
+        let text = "This truck is not available";
+        this.showAlert(text);
+        return;
+      }
+
+      this.saving = true;
       let data = {
         vehicle_id: this.vehicle_id,
         id: this.order_id,
         order_status: this.order_status,
       };
-      console.log(data);
 
       axios
         .put(url, data)
         .then((res) => {
-          console.log(res.data);
+          this.saving = false;
+          this.success = true;
+          this.success_message = res.data.message;
+          this.fetch_all();
         })
         .catch((error) => {
+          this.saving = false;
+          this.error = true;
+          this.error_message = error.response.data.message;
           console.log(error);
         });
     },
@@ -312,7 +353,7 @@ export default {
       this.vehicle_id =
         data.assigned_vehicle == "Not Assigned" ? "" : data.vehicle_id;
       this.vehicle_name = data.assigned_vehicle;
-      console.log(data);
+
       if (actionName == "edit") {
         $("#edit").modal("show");
       }
@@ -328,13 +369,21 @@ export default {
           .then((res) => {
             this.loading_details = false;
             this.items = res.data.items;
-            console.log(res.data);
           })
           .catch((error) => {
             this.loading_details = false;
             console.log(error);
           });
       }
+    },
+    showAlert(text) {
+      // Use sweetalert2
+      Swal.fire({
+        title: "Error",
+        text: text,
+        icon: "error",
+        confirmButtonText: "Ok",
+      });
     },
   },
 };

@@ -1,6 +1,5 @@
 <template>
   <div>
-    <!-- start page title -->
     <div class="row">
       <div class="col-12">
         <div
@@ -15,7 +14,7 @@
         </div>
       </div>
     </div>
-    <!-- end page title -->
+
     <div class="row">
       <div class="col-md-12">
         <div class="card card-body">
@@ -77,7 +76,6 @@ export default {
         .then((res) => {
           this.loading = false;
           this.customers = res.data.customers;
-          console.log(res.data);
         })
         .catch((error) => {
           this.loading = false;

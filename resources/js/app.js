@@ -12,6 +12,8 @@ Vue.component('customers-component', require('./components/customers/CustomersCo
 Vue.component('users-component', require('./components/users/UsersComponent.vue').default);
 Vue.component('roles-component', require('./components/roles/RolesComponent.vue').default);
 Vue.component('cart-count', require('./components/products/CartCountComponent.vue').default);
+Vue.component('footer-component', require('./components/FooterComponent.vue').default);
+Vue.component('documentation-component', require('./components/documentation/DocumentationComponent.vue').default);
 
 const app = new Vue({
     el: "#vue-app"

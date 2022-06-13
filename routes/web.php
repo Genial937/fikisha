@@ -13,6 +13,7 @@ use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\RolesController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\VehiclesController;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -26,6 +27,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Artisan::call('migrate');
 Route::resource('login', SigninController::class);
 Route::resource('register', SignupController::class);
 Route::resource('products', ProductsController::class);
@@ -35,11 +37,13 @@ Route::get('/count-cart', [CartController::class, 'count_cart'])->name('cart.cou
 Route::get('/fetch/cart', [CartController::class, 'fetch_cart'])->name('cart.fetch');
 Route::resource('checkout', CheckoutController::class);
 Route::get('/fetch/products', [ProductsController::class, 'fetch'])->name('products.fetch');
+Route::resource('users', UsersController::class);
+Route::get('/fetch/users', [UsersController::class, 'fetch'])->name('users.fetch');
+Route::resource('roles', RolesController::class);
 Route::middleware(['auth'])->group(function () {
     Route::resource('/', DashboardController::class);
     Route::get('/statistics', [DashboardController::class, 'statistics'])->name('fetch.stats');
-    Route::resource('users', UsersController::class);
-    Route::get('/fetch/users', [UsersController::class, 'fetch'])->name('users.fetch');
+
     Route::resource('orders', OrdersController::class);
     Route::resource('customers', CustomersController::class);
     Route::get('fetch/customers', [CustomersController::class, 'fetch_customers'])->name('customers.fetch');
@@ -48,7 +52,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/fetch/order/details/{id}', [OrdersController::class, 'fetch_order_details'])->name('order.details');
     Route::resource('vehicles', VehiclesController::class);
     Route::get('/fetch/vehicles', [VehiclesController::class, 'fetch'])->name('vehicles.fetch');
-    Route::resource('roles', RolesController::class);
+
     Route::get('/fetch/roles', [RolesController::class, 'fetch_roles'])->name('roles.fetch');
     Route::resource('documentation', DocumentationController::class);
     Route::resource('logout', LogoutController::class);

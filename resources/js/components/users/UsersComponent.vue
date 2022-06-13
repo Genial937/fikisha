@@ -1,6 +1,5 @@
 <template>
   <div>
-    <!-- start page title -->
     <div class="row">
       <div class="col-12">
         <div
@@ -27,7 +26,6 @@
         </div>
       </div>
     </div>
-    <!-- end page title -->
     <div class="row">
       <div class="col-md-12">
         <div class="card card-body">
@@ -49,7 +47,7 @@
               ></button>
             </div>
             <div class="modal-body">
-              <div v-if="saving">
+              <div v-if="saving" class="d-flex justify-content-center">
                 <saving-component></saving-component>
               </div>
               <div v-if="success">
@@ -187,7 +185,6 @@ export default {
         .get(this.fetchUrl)
         .then((res) => {
           this.users = res.data.users;
-          console.log(res.data);
         })
         .catch((error) => {
           console.log(error);
@@ -208,7 +205,6 @@ export default {
           this.success = true;
           this.success_message = res.data.message;
           this.fetch_users();
-          console.log(res.data);
         })
         .catch((error) => {
           this.saving = false;
