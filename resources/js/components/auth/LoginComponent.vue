@@ -43,11 +43,6 @@
                     </div>
 
                     <div class="mb-3">
-                      <div class="float-end">
-                        <a href="auth-recoverpw.html" class="text-muted"
-                          >Forgot password?</a
-                        >
-                      </div>
                       <label class="form-label" for="userpassword"
                         >Password</label
                       >
