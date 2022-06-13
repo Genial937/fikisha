@@ -334,6 +334,7 @@ export default {
           this.success = true;
           this.success_message = res.data.message;
           this.resetForm();
+          this.fetch_products();
         })
         .catch((error) => {
           this.saving = false;
